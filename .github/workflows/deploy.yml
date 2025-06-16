@@ -2,9 +2,8 @@ name: Deploy Backend API Project
 
 on: 
   push:
-    branches: [ main, master]
-  pull-request:
-  workflow-dispatch:
+    branches: 
+      - main
 
 jobs: 
   .deploy:
