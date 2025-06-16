@@ -1,0 +1,39 @@
+name: Deploy Backend API Project
+
+on: 
+  push:
+    branches: [ main, master]
+  pull-request:
+  workflow-dispatch:
+
+jobs: 
+  .deploy:
+    runs-on:  ubuntu-latest
+
+    steps:
+      # Repoyu yukarıda sana söylediğim ubuntu-latest sürümünün yüklü olduğu container içine klonla
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Az önce ubuntu-containerı içine klonladığın projeyi derle.
+      - name: Setup .Net Core
+        uses: actions/setup-dotnet@v4 
+        with:
+          dotnet-version: '8.0'
+
+      # Derlenmiş olan projeyi publish et
+      - name: Publish Web API
+        run: dotnet publish ./EShop.API/EShop.API.csproj -c Release -o ./publish
+
+      # Publish için hazırladığımız dosyaları sunucuya FTP ile yolla 
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: 89.252.187.226
+          username: online
+          password: ${{secrets.FTP_PASSWORD}}
+          local-dir: ./publish/
+          server-dir: /api.mervearpacioglu.com/
+
+
+    
