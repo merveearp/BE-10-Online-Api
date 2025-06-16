@@ -22,7 +22,7 @@ jobs:
           dotnet-version: '8.0'
 
       # Derlenmiş olan projeyi publish et
-      - name: Publish Web API
+      - name: Publish Backend API Project
         run: dotnet publish ./EShop.API/EShop.API.csproj -c Release -o ./publish
 
       # Publish için hazırladığımız dosyaları sunucuya FTP ile yolla 
